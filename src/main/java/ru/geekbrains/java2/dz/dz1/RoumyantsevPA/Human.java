@@ -1,76 +1,67 @@
-package ru.geekbrains.java2.dz.dz1.RoumyantsevPA; /**
+package ru.geekbrains.java2.dz.dz1.RoumyantsevPA;
+
+/**
  */
-public class Human extends Animal implements Swimable, Jumpable {
+public class Human implements Swimable, Jumpable, TeamMember {
+    String name;
     private float endurance;
+    boolean onDistance;
+    private float maxRunDistance;
+    private float maxSwimDistance;
+    private float maxJumpHeight;
+
+    public String getName() {
+        return name;
+    }
+
+    public void run(float distance) {
+        if (distance <= this.maxRunDistance) {
+            System.out.println("Бег - PASS");
+        } else {
+            this.onDistance = false;
+            getOutFromDistance("Бег");
+        }
+
+    }
+
+    public boolean isOnDistance() {
+        return onDistance;
+    }
 
     public Human(String name) {
-//        super();
+//        super(name);
         this.name = name;
-        animType = "ru.geekbrains.java2.lesson1.Human";
         onDistance = true;
         maxRunDistance = 5000;
+        maxJumpHeight = 1.0f;
+        maxSwimDistance = 3000;
         endurance = 5000;
-    }
 
-    public Human(float endurance) {
-        this();
-        this.endurance = endurance;
-    }
-
-    public Human() {
-        super("");
-    }
-
-//    @Override
-//    void printInfo() {
-//        if (name.isEmpty()) return;
-//        name += "gdfg";
-//        name  = name + "gdfg" + (1 + 9);
-//    }
-
-    @Override
-    public void info() {
-        super.info();
     }
 
     public void swim(float dist) {
-        if (dist < 5000) {
+        if (dist < maxRunDistance) {
             endurance -= dist * 10.0f;
             if (endurance < 0)
                 getOutFromDistance("endurance(swim)");
             else
-                System.out.println(animType + " water ok");
+                System.out.println("Плыть - PASS");
         } else {
-            getOutFromDistance("swim");
+            getOutFromDistance("Плыть");
         }
 
     }
 
-  //  @Override
     public void jump(float height) {
-        if (height < 1.0f) {
+        if (height < maxJumpHeight) {
             endurance -= height * 100;
             if (endurance < 0)
                 getOutFromDistance("endurance(jump)");
             else
-                System.out.println(animType + " jump ok");
+                System.out.println("Прыжок - PASS");
         } else {
-            getOutFromDistance("jump");
+            getOutFromDistance("Прыжок");
         }
-    }
-
-    @Override
-    public void cross(float dist) {
-        if (dist < maxRunDistance) {
-            endurance -= dist * 5;
-            if (endurance < 0)
-                getOutFromDistance("endurance(cross)");
-            else
-                System.out.println(animType + " cross ok");
-        } else {
-            getOutFromDistance("cross");
-        }
-
     }
 
     public float getEndurance() {
@@ -79,5 +70,14 @@ public class Human extends Animal implements Swimable, Jumpable {
 
     public void setEndurance(float endurance) {
         this.endurance = endurance;
+    }
+
+    public void getOutFromDistance(String reason) {
+        System.out.println(reason + " - FAILED");
+        onDistance = false;
+    }
+
+    public String getClas() {
+        return "";
     }
 }

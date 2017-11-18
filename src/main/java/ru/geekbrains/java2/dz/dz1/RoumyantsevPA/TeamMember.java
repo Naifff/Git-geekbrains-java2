@@ -10,4 +10,6 @@ public interface TeamMember {
     void swim(float distance);
 
     boolean isOnDistance();
+
+    public String getClas();
 }

@@ -1,18 +1,16 @@
-package ru.geekbrains.java2.dz.dz1.RoumyantsevPA; /**
+package ru.geekbrains.java2.dz.dz1.RoumyantsevPA;
+
+/**
  */
 public class Duck extends Animal implements Swimable {
     public Duck(String name) {
-        this.name = name;
-        animType = "ru.geekbrains.java2.lesson1.Duck";
+        super(name);
+        // this.name = name;
+        animType = "Duck ";
         onDistance = true;
         maxRunDistance = 50;
+        maxSwimDistance = 15000;
     }
 
-    public void swim(float dist) {
-        if(dist < 15000) {
-            System.out.println(animType + " water ok");
-        } else {
-            getOutFromDistance("swim");
-        }
-    }
+
 }
