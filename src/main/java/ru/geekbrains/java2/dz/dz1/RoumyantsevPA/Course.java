@@ -1,4 +1,5 @@
 package ru.geekbrains.java2.dz.dz1.RoumyantsevPA;
 
-public interface Course {
+public class Course {
+    public void doIt(Team team){};
 }
