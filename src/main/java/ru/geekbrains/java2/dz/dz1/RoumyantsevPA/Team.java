@@ -1,9 +1,11 @@
 package ru.geekbrains.java2.dz.dz1.RoumyantsevPA;
 
 public class Team {
+    String title="";
     public TeamMember[] t = new TeamMember[4];
 
     public Team() {
+        title="DreamTeam";
         for (int i = 0; i < t.length; i++) {
             switch (i) {
                 case 0:
@@ -23,12 +25,23 @@ public class Team {
     }
 
     public void showResults() {
-        System.out.println("\n \nРезультаты:");
+        System.out.println("\n \nРезультаты "+this.title+":");
         for (int i = 0; i < t.length; i++) {
             if (t[i].isOnDistance()) {
                 System.out.println(t[i].getClas() + t[i].getName() + " - PASS");
             } else {
                 System.out.println(t[i].getClas() + t[i].getName() + " - FAILED");
+            }
+
+
+        }
+    }
+
+    public void showResultsPass() {
+        System.out.println("\n \nРезультаты:");
+        for (int i = 0; i < t.length; i++) {
+            if (t[i].isOnDistance()) {
+                System.out.println(t[i].getClas() + t[i].getName() + " - PASS");
             }
 
 
