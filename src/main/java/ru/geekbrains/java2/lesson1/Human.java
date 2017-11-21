@@ -46,7 +46,7 @@ public class Human extends Animal implements Swimable, Jumpable {
 
     }
 
-  //  @Override
+    @Override
     public void jump(float height) {
         if (height < 1.0f) {
             endurance -= height * 100;
