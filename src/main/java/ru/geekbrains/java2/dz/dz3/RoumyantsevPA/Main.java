@@ -1,4 +1,7 @@
 package ru.geekbrains.java2.dz.dz3.RoumyantsevPA;
+
+import java.util.Scanner;
+
 /*
 Задание
 Нужно реализовать рассадку пассажирова по рейсам. Каждый пассажир должен сесть на свой
@@ -30,4 +33,18 @@ Collection<Passenger> = new ArrayList<Passenger>();
 for (Passenger passenger : passengers) { }
  */
 public class Main {
+    public static void main(String[] args) {
+
+
+
+    Scanner scanner = new Scanner(System.in);
+
+    String fio = scanner.next()+" "+scanner.next()+" "+scanner.next();
+    int id = scanner.nextInt();
+    int flightNumber = scanner.nextInt();
+
+    Passenger man = new Passenger(fio, id, flightNumber);
+    man.printPass();
+}
+
 }
