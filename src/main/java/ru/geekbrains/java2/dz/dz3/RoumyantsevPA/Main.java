@@ -1,6 +1,6 @@
 package ru.geekbrains.java2.dz.dz3.RoumyantsevPA;
 
-import java.util.Scanner;
+import java.util.*;
 
 /*
 Задание
@@ -34,9 +34,10 @@ for (Passenger passenger : passengers) { }
  */
 public class Main {
     public static void main(String[] args) {
-
-
-
+        List<Passenger> passengers = new ArrayList<Passenger>();
+        Map<Integer,List<Passenger>> passengers = new TreeMap<Integer,List<Passenger>>();
+        Collection<Passenger> ttt= new ArrayList<Passenger>();
+        for (Passenger passenger : ttt) { }
     Scanner scanner = new Scanner(System.in);
 
     String fio = scanner.next()+" "+scanner.next()+" "+scanner.next();
@@ -44,7 +45,7 @@ public class Main {
     int flightNumber = scanner.nextInt();
 
     Passenger man = new Passenger(fio, id, flightNumber);
-    man.printPass();
+    //man.printPass();
 }
 
 }
