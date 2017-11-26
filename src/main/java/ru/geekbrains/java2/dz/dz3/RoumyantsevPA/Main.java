@@ -55,15 +55,17 @@ public class Main {
             autoFill.add(new Passenger("Steven A Rice", 9702, 3));
             autoFill.add(new Passenger("John E Billman", 9703, 4));
             autoFill.add(new Passenger("Kevin S Guin", 9755, 5));
-            for (Passenger p:autoFill){ if (passengers.containsKey(p.getFly())) {
-                TreeSet<String> psg = new TreeSet<String>();
-                psg = passengers.get(p.getFly());
-                psg.add(p.getFio() + " id: " + p.getId());
-            } else {
-                TreeSet<String> psg = new TreeSet<String>();
-                psg.add(p.getFio() + " id: " + p.getId());
-                passengers.put(p.getFly(), psg);
-            }}
+            for (Passenger p : autoFill) {
+                if (passengers.containsKey(p.getFly())) {
+                    TreeSet<String> psg = new TreeSet<String>();
+                    psg = passengers.get(p.getFly());
+                    psg.add(p.getFio() + " id: " + p.getId());
+                } else {
+                    TreeSet<String> psg = new TreeSet<String>();
+                    psg.add(p.getFio() + " id: " + p.getId());
+                    passengers.put(p.getFly(), psg);
+                }
+            }
         } else {//читаем данные пользователя с консоли
             while (true) {
                 System.out.println("Для завершения ввода наберите \"END\"");
