@@ -35,9 +35,4 @@ public class Passenger {
         this.id = id;
         this.fly = fly;
     }
-//
-//    public void printPass(){
-//        System.out.println("FIO: "+this.fio+"\n id: "+this.id+"\n Рейс: "+this.fly);
-//
-//    }
 }
