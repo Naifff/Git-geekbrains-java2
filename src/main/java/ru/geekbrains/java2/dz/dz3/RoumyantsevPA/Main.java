@@ -34,41 +34,70 @@ for (Passenger passenger : passengers) { }
  */
 public class Main {
     public static void main(String[] args) {
-        Map<Integer, List<Passenger>> passengers = new TreeMap<Integer, List<Passenger>>();
+        List<Passenger> passenger = new ArrayList<>();
+        HashMap<Integer, TreeSet<String>> passengers = new HashMap<Integer, TreeSet<String>>();
         Scanner scanner = new Scanner(System.in);
-//читаем данные пользователя с консоли
-        while (true) {
-            System.out.println("Для завершения ввода наберите \"END\"");
-            System.out.println("Введите ФИО:");
-            String fio = scanner.next();
-            if (fio.equals("END")) {
-                break;
-            }
-            fio += " " + scanner.next() + " " + scanner.next();
-            System.out.println("Введите номер паспорта, без пробелов:");
-            int id = str2Int();
-            System.out.println("Введите номер рейса:");
-            int flightNumber = str2Int();
-            Passenger man = new Passenger(fio, id, flightNumber);
-            if (passengers.containsKey(flightNumber)) {
-                passengers.get(flightNumber).add(man);
+
+        System.out.println("Ручной ввод(1) или Автозаполнение(2)?");
+        int inp = scanner.nextInt();
+        if (inp == 2) {//автозаполнение
+            ArrayList<Passenger> autoFill = new ArrayList<Passenger>();
+            autoFill.add(new Passenger("Luis H Burch", 9795, 2));
+            autoFill.add(new Passenger("Tom R Haney", 9792, 4));
+            autoFill.add(new Passenger("Benjamin R Hentges", 9793, 5));
+            autoFill.add(new Passenger("Colleen T Gerhardt", 9794, 6));
+            autoFill.add(new Passenger("Arthur R Spicer", 9796, 1));
+            autoFill.add(new Passenger("Loretta Z Lott", 9797, 5));
+            autoFill.add(new Passenger("Donald R Smith", 9798, 5));
+            autoFill.add(new Passenger("Joan O Rosen", 9799, 2));
+            autoFill.add(new Passenger("Kristyn R Corrales", 9700, 4));
+            autoFill.add(new Passenger("Marvin W Backer", 9701, 3));
+            autoFill.add(new Passenger("Steven A Rice", 9702, 3));
+            autoFill.add(new Passenger("John E Billman", 9703, 4));
+            autoFill.add(new Passenger("Kevin S Guin", 9755, 5));
+            for (Passenger p:autoFill){ if (passengers.containsKey(p.getFly())) {
+                TreeSet<String> psg = new TreeSet<String>();
+                psg = passengers.get(p.getFly());
+                psg.add(p.getFio() + " id: " + p.getId());
             } else {
-                List<Passenger> ttt = new ArrayList<Passenger>();
-                ttt.add(man);
-                passengers.put(flightNumber, ttt);
+                TreeSet<String> psg = new TreeSet<String>();
+                psg.add(p.getFio() + " id: " + p.getId());
+                passengers.put(p.getFly(), psg);
+            }}
+        } else {//читаем данные пользователя с консоли
+            while (true) {
+                System.out.println("Для завершения ввода наберите \"END\"");
+                System.out.println("Введите ФИО:");
+                String fio = scanner.next();
+                if (fio.equals("END")) {
+                    break;
+                }
+                fio += " " + scanner.next() + " " + scanner.next();
+                System.out.println("Введите номер паспорта, без пробелов:");
+                int id = str2Int();
+                System.out.println("Введите номер рейса:");
+                int flightNumber = str2Int();
+                passenger.add(new Passenger(fio, id, flightNumber));
+                if (passengers.containsKey(flightNumber)) {
+                    TreeSet<String> psg = new TreeSet<String>();
+                    psg = passengers.get(flightNumber);
+                    psg.add(fio + " id: " + id);
+                } else {
+                    TreeSet<String> psg = new TreeSet<String>();
+                    psg.add(fio + " id: " + id);
+                    passengers.put(flightNumber, psg);
+                }
             }
         }
 //распределяем по рейсам и по имени внутри рейсов
         for (int key : passengers.keySet()) {
-            List<Passenger> ttt = new ArrayList<Passenger>();
+            TreeSet<String> ttt = new TreeSet<String>();
             ttt = passengers.get(key);
-            TreeSet<String> printMe = new TreeSet<>();
-            for (Passenger pass : ttt
+            System.out.println(key + "[" + ttt.size() + "]" + " :");
+            for (String pass : ttt
                     ) {
-                printMe.add("\n" + pass.getFio() + "  id:" + pass.getId());
+                System.out.println(pass);
             }
-            System.out.println(key + "[" + printMe.size() + "]" + " :");
-            System.out.println(printMe);
             System.out.println();
 
         }
