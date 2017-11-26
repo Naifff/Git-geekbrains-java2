@@ -38,6 +38,6 @@ public class Passenger {
 //
 //    public void printPass(){
 //        System.out.println("FIO: "+this.fio+"\n id: "+this.id+"\n Рейс: "+this.fly);
-
-    }
+//
+//    }
 }

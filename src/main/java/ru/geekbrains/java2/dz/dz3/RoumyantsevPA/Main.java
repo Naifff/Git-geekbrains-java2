@@ -34,7 +34,7 @@ for (Passenger passenger : passengers) { }
  */
 public class Main {
     public static void main(String[] args) {
-        List<Passenger> passengers = new ArrayList<Passenger>();
+       // List<Passenger> passengers = new ArrayList<Passenger>();
         Map<Integer,List<Passenger>> passengers = new TreeMap<Integer,List<Passenger>>();
         Collection<Passenger> ttt= new ArrayList<Passenger>();
         for (Passenger passenger : ttt) { }
