@@ -12,7 +12,7 @@
       <background color="-16777216"/>
       <visible value="true"/>
     </properties>
-    <border type="none">
+    <border type="empty">
       <font name="Verdana" size="12" style="1"/>
       <title-color color="-4606021"/>
     </border>
@@ -26,7 +26,7 @@
         </properties>
         <border type="empty">
           <title-color color="-16777216"/>
-          <size top="10" left="10" bottom="0" right="0"/>
+          <size top="0" left="10" bottom="0" right="0"/>
         </border>
         <children>
           <component id="94af7" class="javax.swing.JEditorPane" binding="editorPane1" default-binding="true">
