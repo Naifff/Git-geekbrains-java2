@@ -1,6 +1,7 @@
 package ru.geekbrains.java2.dz.dz4.RoumyantsevPA;
 
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DZ4Form extends JFrame {
@@ -44,16 +45,18 @@ public class DZ4Form extends JFrame {
             }
         }
         editorPane1.setText("");
+//        SimpleDateFormat formatForDateNow = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm:ss a zzz");
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("(k:mm:ss dd/MM/yyyy)");
 
         button1.addActionListener(
                 e -> {
-                    editorPane1.setText(editorPane1.getText() + "\nYou:" + new Date( )+"\n" + textField1.getText());
+                    editorPane1.setText(editorPane1.getText() + "\nYou " + formatForDateNow.format( new Date())+" :\n" + textField1.getText());
                     textField1.setText("");
                      });
 
         textField1.addActionListener(
                 e -> {
-                    editorPane1.setText(editorPane1.getText() + "\nYou:" + new Date()+"\n"+ textField1.getText());
+                    editorPane1.setText(editorPane1.getText() + "\nYou " + formatForDateNow.format( new Date())+" :\n"+ textField1.getText());
                     textField1.setText("");
                      }
         );
