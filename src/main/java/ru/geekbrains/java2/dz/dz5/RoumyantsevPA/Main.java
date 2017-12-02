@@ -128,7 +128,8 @@ public class Main {
             start += size / w;
             end += size / w;
         }
-
+        
+//сильно не уверен что значения не будут путаться
         Runner runner = new Runner();
         for (int i = 0; i < w; i++) {
             runner.setI(i);
