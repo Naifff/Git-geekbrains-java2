@@ -43,6 +43,7 @@ import java.util.Arrays;
 public class Main {
     static final int size = 10000000;
     static final int h = size / 2;
+    public int runner=0;
 
     public static void main(String[] args) {
 
@@ -54,7 +55,7 @@ public class Main {
 //        System.out.println("Processors available: " + cores);
 
         for (int i = 1; i < 17; i++) {
-            metod(i);
+                    metod(i);
         }
 
     }
@@ -70,7 +71,7 @@ public class Main {
             arr[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
         System.out.println("Метод 1: " + (System.currentTimeMillis() - a));
-       // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
+      //  System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
     }
 
     static private void metod2() {
@@ -118,31 +119,33 @@ public class Main {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = 1.0f;
         }
-        float[][] arrays = new float[w][size / w];
+        float[][] arrays = new float[w][size / w+size%w]; //на случай конда число потоков не кратно size
         long a = System.currentTimeMillis();
         int start = 0;
         int end = size / w;
-
-        for (int i = 0; i < w; i++) {
+        int count=w-1;
+if(size%w==0){count=w;}
+        for (int i = 0; i < count; i++) {
             System.arraycopy(arr, start, arrays[i], 0, size / w);
             start += size / w;
             end += size / w;
         }
+        if (count==w-1){
+        System.arraycopy(arr, start, arrays[w-1], 0, size -start);} //на случай конда число потоков не кратно size
 
-//сильно не уверен что значения не будут путаться
-        Runner runner = new Runner();
         for (int i = 0; i < w; i++) {
-            runner.setI(i);
 
+            int finalRunner = i;
             threads[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    for (int j = 0; j < arrays[runner.getI()].length; j++) {
-                        arrays[runner.getI()][j] = (float) ((arrays[runner.getI()][j]) * Math.sin(0.2f + (j + runner.getI() * size / w) / 5) * Math.cos(0.2f + (j + runner.getI() * size / w) / 5) * Math.cos(0.4f + (j + runner.getI() * size / w) / 2));
+                    for (int j = 0; j < arrays[finalRunner].length; j++) {
+                        arrays[finalRunner][j] = (float) ((arrays[finalRunner][j]) * Math.sin(0.2f + (j + finalRunner * size / w) / 5) * Math.cos(0.2f + (j + finalRunner * size / w) / 5) * Math.cos(0.4f + (j + finalRunner * size / w) / 2));
                     }
                 }
             });
         }
+
         for (int i = 0; i < threads.length; i++) {
             threads[i].start();
         }
@@ -157,7 +160,8 @@ public class Main {
         for (int i = 0; i < w; i++) {
             System.arraycopy(arrays[i], 0, arr, start, size / w);
             start += size / w;
-        }
+        }if (count==w-1){
+            System.arraycopy(arrays[w-1], 0, arr, start, size -start);} //на случай конда число потоков не кратно size
 
         System.out.println("Метод " + w + ": " + (System.currentTimeMillis() - a));
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
