@@ -71,7 +71,7 @@ public class Main {
             arr[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
         System.out.println("Метод 1: " + (System.currentTimeMillis() - a));
-      //  System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
+       // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
     }
 
     static private void metod2() {
@@ -146,12 +146,14 @@ if(size%w==0){count=w;}
             });
         }
 
-        for (int i = 0; i < threads.length; i++) {
-            threads[i].start();
+        for (Thread thread:threads
+             ) {thread.start();
+
         }
+
         try {
-            for (int i = 0; i < threads.length; i++) {
-                threads[i].join();
+            for (Thread thread:threads
+                    ) {thread.join();
             }
         } catch (Exception e) {
         }
@@ -161,7 +163,7 @@ if(size%w==0){count=w;}
             System.arraycopy(arrays[i], 0, arr, start, size / w);
             start += size / w;
         }if (count==w-1){
-            System.arraycopy(arrays[w-1], 0, arr, start, size -start);} //на случай конда число потоков не кратно size
+            System.arraycopy(arrays[w-1], 0, arr, start, size -start);}
 
         System.out.println("Метод " + w + ": " + (System.currentTimeMillis() - a));
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
