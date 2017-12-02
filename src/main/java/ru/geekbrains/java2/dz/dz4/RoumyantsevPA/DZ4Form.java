@@ -3,6 +3,8 @@ package ru.geekbrains.java2.dz.dz4.RoumyantsevPA;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -61,9 +63,12 @@ public class DZ4Form extends JFrame {
                 });
 
         textField1.addActionListener(
-                e -> {
-                    editorPane1.setText(editorPane1.getText() + "\nYou " + formatForDateNow.format(new Date()) + "\n" + textField1.getText());
-                    textField1.setText("");
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        editorPane1.setText(editorPane1.getText() + "\nYou " + formatForDateNow.format(new Date()) + "\n" + textField1.getText());
+                        textField1.setText("");
+                    }
                 }
         );
     }
