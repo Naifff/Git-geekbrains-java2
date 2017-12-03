@@ -119,19 +119,15 @@ public class Main {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = 1.0f;
         }
-        float[][] arrays = new float[w][size / w+size%w]; //на случай конда число потоков не кратно size
+        float[][] arrays = new float[w][size / w];
         long a = System.currentTimeMillis();
         int start = 0;
         int end = size / w;
-        int count=w-1;
-if(size%w==0){count=w;}
-        for (int i = 0; i < count; i++) {
+               for (int i = 0; i < w; i++) {
             System.arraycopy(arr, start, arrays[i], 0, size / w);
             start += size / w;
             end += size / w;
         }
-        if (count==w-1){
-        System.arraycopy(arr, start, arrays[w-1], 0, size -start);} //на случай конда число потоков не кратно size
 
         for (int i = 0; i < w; i++) {
 
@@ -150,7 +146,15 @@ if(size%w==0){count=w;}
              ) {thread.start();
 
         }
+        float[] ostatok=new float[size-start];
+        if (size%w!=0){
 
+
+            System.arraycopy(arr, start, ostatok, 0, size -start);
+               for(int i=0;i<ostatok.length;i++){
+                   ostatok[i]=(float) ((ostatok[i]) * Math.sin(0.2f + (size-size%w+i) / 5) * Math.cos(0.2f + (size-size%w+i) / 5) * Math.cos(0.4f + (size-size%w+i) / 2));
+               }
+               }
         try {
             for (Thread thread:threads
                     ) {thread.join();
@@ -162,8 +166,8 @@ if(size%w==0){count=w;}
         for (int i = 0; i < w; i++) {
             System.arraycopy(arrays[i], 0, arr, start, size / w);
             start += size / w;
-        }if (count==w-1){
-            System.arraycopy(arrays[w-1], 0, arr, start, size -start);}
+        }if (size%w!=0){
+            System.arraycopy(ostatok , 0, arr, start, size -start);}
 
         System.out.println("Метод " + w + ": " + (System.currentTimeMillis() - a));
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
