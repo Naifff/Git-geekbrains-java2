@@ -48,8 +48,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-        metod1();
-        metod2();
+//        metod1();
+//        metod2();
 
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.out.println("Processors available: " + cores);
@@ -136,7 +136,8 @@ public class Main {
                 @Override
                 public void run() {
                     for (int j = 0; j < arrays[finalRunner].length; j++) {
-                        arrays[finalRunner][j] = (float) ((arrays[finalRunner][j]) * Math.sin(0.2f + (j + finalRunner * size / w) / 5) * Math.cos(0.2f + (j + finalRunner * size / w) / 5) * Math.cos(0.4f + (j + finalRunner * size / w) / 2));
+                        int counter =j + finalRunner * (size / w);
+                        arrays[finalRunner][j] = (float) ((arrays[finalRunner][j]) * Math.sin(0.2f + counter / 5) * Math.cos(0.2f + counter / 5) * Math.cos(0.4f + counter / 2));
                     }
                 }
             });
