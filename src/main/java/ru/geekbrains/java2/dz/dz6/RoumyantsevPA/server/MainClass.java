@@ -10,20 +10,20 @@ public class MainClass {
         try (ServerSocket server = new ServerSocket(8189)) {
 //            server.getInetAddress();
             System.out.println("Server created. Waiting for client...");
-            while(true) {
-                s = server.accept();
-                System.out.println("Client connected");
-                new Thread(new ClientHandler(s)).start();
-            }
+            s = server.accept();
+            System.out.println("Client connected");
+            new Thread(new ClientHandler(s)).run();
+
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                s.close();
-                System.out.println("Server closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+//        finally {
+//            try {
+//                s.close();
+//                System.out.println("Server closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }

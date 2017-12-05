@@ -23,48 +23,42 @@ public class MyConsole {
             in = new Scanner(sock.getInputStream());
             out = new PrintWriter(sock.getOutputStream());
         } catch (IOException e) {
-            //e.printStackTrace();
             System.out.println("Сервер не запущен");
             e.printStackTrace();
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        if (in.hasNext()) {
-                            String w = in.nextLine();
-                            if (w.equalsIgnoreCase("end session")) {
-                                end = true;
-                                System.out.println(w);
-                                break;
-                            }
-                            System.out.println(w);
-                        }
+        new Thread(() -> {
+            Thread outConsole = new Thread(() -> {
+                while (true) {
+                    if (sc.hasNext()) {
+                        String a = sc.nextLine();
+                        out.println(a);
+                        out.flush();
                     }
-                } catch (Exception e) {
                 }
+            });
+            outConsole.start();
 
-                try {
-
-                    out.close();
-                    in.close();
-                    sock.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            while (true) {
+                if (in.hasNext()) {
+                    String w = in.nextLine();
+                    if (w.equalsIgnoreCase("end session")) {
+                        end = true;
+                        System.out.println(w);
+                        break;
+                    }
+                    System.out.println(w);
                 }
+            }
+            outConsole.stop();
+            try {
+                out.close();
+                in.close();
+                sock.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }).start();
-
-        while (!end) {
-            String a = sc.next();
-            out.println(a);
-            out.flush();
-            if (end) {
-                break;
-            }
-        }
     }
 }
 
