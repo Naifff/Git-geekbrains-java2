@@ -41,7 +41,7 @@ arr[i] = (float)(arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math
 import java.util.Arrays;
 
 public class Main {
-    static final int size = 10000000;
+    static final int size =10000000;
     static final int h = size / 2;
     public int runner=0;
 
@@ -53,10 +53,18 @@ public class Main {
 
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.out.println("Processors available: " + cores);
-
+long min=Long.MAX_VALUE;
+int value=0;
+long current=0;
         for (int i = 1; i < 17; i++) {
-                    metod(i);
+            current=metod(i);
+                   if( min> current){
+                       min=current;
+                       value=i;
+                   }
         }
+        metod(16000);
+        System.out.println("Самый бюыстрый: "+min+" Количество потоков: "+value);
 
     }
 
@@ -113,7 +121,7 @@ public class Main {
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
     }
 
-    static private void metod(int w) {
+    static private long metod(int w) {
         Thread[] threads = new Thread[w];
         float[] arr = new float[size];
         for (int i = 0; i < arr.length; i++) {
@@ -169,8 +177,9 @@ public class Main {
             start += size / w;
         }if (size%w!=0){
             System.arraycopy(ostatok , 0, arr, start, size -start);}
-
-        System.out.println("Метод " + w + ": " + (System.currentTimeMillis() - a));
+long time=System.currentTimeMillis() - a;
+        System.out.println("Потоков " + w + ": " + time+"мс");
+        return time;
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
 
     }
