@@ -19,19 +19,40 @@ public class ClientHandler implements Runnable {
             in = new Scanner(s.getInputStream());
             CLIENTS_COUNT++;
             name = "Client #" + CLIENTS_COUNT;
+            out.println("Добро пажаловать в секретный хакерский чат\nПожалуйста авторизируйтесь:\nlogin:password");
+            out.flush();
         } catch (IOException e) {
         }
     }
 
     @Override
     public void run() {
+//        out.println("Привет2");
+//        out.flush();
+        String[] name2 = new String[2];
+        String hName = "";
+        boolean auth = false;
         while (true) {
-            if(in.hasNext()) {
+            if (in.hasNext()) {
                 String w = in.nextLine();
                 System.out.println(name + ": " + w);
-                out.println("echo: " + w);
-                out.flush();
-                if(w.equalsIgnoreCase("END")) break;
+                if (!auth) {
+                    name2 = w.split(":");
+                    auth = true;
+                    hName = name2[0];
+                    out.println("Здравствуйте " + hName);
+                    out.flush();
+                } else {
+                    if (w.equalsIgnoreCase("END")) {
+                        out.println("end session");
+                        out.flush();
+
+                        break;
+                    }
+                    out.println(hName + ">echo: " + w);
+                    out.flush();
+
+                }
             }
         }
         try {
