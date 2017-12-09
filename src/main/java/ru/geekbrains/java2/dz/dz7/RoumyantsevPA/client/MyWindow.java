@@ -11,6 +11,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import static java.awt.Color.black;
+import static java.awt.Color.green;
+
 public class MyWindow extends JFrame {
 
     JTextField jtf;
@@ -23,39 +26,30 @@ public class MyWindow extends JFrame {
     DataOutputStream out;
 
     public MyWindow() {
-        setBounds(600, 300, 500, 500);
-        setTitle("Client");
+
+        Image img = Toolkit.getDefaultToolkit().getImage(".\\src\\main\\java\\ru\\geekbrains\\java2\\dz\\dz7\\RoumyantsevPA\\java.png");
+        setIconImage(img);
+        setSize(800, 600);
+        setTitle("M a t r i x   has   U. . .");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jta = new JTextArea();
         jta.setEditable(false);
         jta.setLineWrap(true);
+        jta.setBackground(black);
+        jta.setForeground(green);
+
         JScrollPane jsp = new JScrollPane(jta);
+        jsp.setBackground(black);
         add(jsp, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        JPanel authPanel = new JPanel(new GridLayout());
-
-        JTextField jtfLogin = new JTextField("Login");
-        JTextField jtfPass = new JTextField("Password");
-        JButton jbAuth = new JButton("Auth");
-        authPanel.add(jtfLogin);
-        authPanel.add(jtfPass);
-        authPanel.add(jbAuth);
-        jtfLogin.setToolTipText("Login");
-        jtfPass.setToolTipText("Password");
-        add(authPanel, BorderLayout.NORTH);
-
-        jbAuth.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                connect("auth\t" + jtfLogin.getText() + "\t" + jtfPass.getText());
-            }
-        });
-
+        bottomPanel.setBackground(black);
         add(bottomPanel, BorderLayout.SOUTH);
         JButton jbSend = new JButton("SEND");
         bottomPanel.add(jbSend, BorderLayout.EAST);
         jtf = new JTextField();
+        jtf.setBackground(black);
+        jtf.setForeground(green);
         bottomPanel.add(jtf, BorderLayout.CENTER);
 
         jbSend.addActionListener(new ActionListener() {
@@ -92,21 +86,15 @@ public class MyWindow extends JFrame {
             }
         });
 
-        setVisible(true);
-    }
-
-    public void connect(String cmd) {
         try {
             sock = new Socket(SERVER_ADDR, SERVER_PORT);
             in = new DataInputStream(sock.getInputStream());
             out = new DataOutputStream(sock.getOutputStream());
-            out.writeUTF(cmd);
-            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -115,7 +103,8 @@ public class MyWindow extends JFrame {
                         if (w != null) {
                             if (w.equalsIgnoreCase("end session")) {
                                 jta.append("end session");
-                                break;}
+                                break;
+                            }
                             jta.append(w);
                             jta.append("\n");
                             jta.setCaretPosition(jta.getDocument().getLength());
@@ -123,9 +112,32 @@ public class MyWindow extends JFrame {
                         Thread.sleep(100);
                     }
                 } catch (Exception e) {
+                } finally {
+                    {
+                        try {
+                            sock.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            out.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+
             }
-        }).start();
+        });
+        //   t.setDaemon(true);
+        t.start();
+
+        setVisible(true);
     }
 
     public void sendMsg() {

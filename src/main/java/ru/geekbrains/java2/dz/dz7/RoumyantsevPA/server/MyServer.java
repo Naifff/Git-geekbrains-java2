@@ -24,7 +24,7 @@ public class MyServer {
                 socket = server.accept();
                 System.out.println("Client connected");
                 ClientHandler h = new ClientHandler(socket, this);
-                clients.add(h);
+              //  clients.add(h);
                 new Thread(h).start();
             }
         } catch (IOException e) {
@@ -39,6 +39,8 @@ public class MyServer {
             }
         }
     }
+
+    public void addClient(ClientHandler c){clients.add(c);}
 
     public void remove(ClientHandler o) {
         clients.remove(o);

@@ -30,9 +30,9 @@ public class ClientHandler implements Runnable {
 
 
         try {
-            out.writeUTF("Здравствуйте, для авторизации наберите:auth login password\nдля помощи help");
+            out.writeUTF("Здравствуйте, для авторизации наберите: auth login password"+System.lineSeparator()+"для помощи help");
             out.flush();
-            while (true) {
+            while (true){
                 String w = in.readUTF();
                 if (name.isEmpty()) {
                     String[] n = w.split("\t");
@@ -43,16 +43,49 @@ public class ClientHandler implements Runnable {
                             out.flush();
                             name = t;
                             owner.setUserId(t, this);
-                            owner.broadcastMsg("$ "+name+" присоединился к каналу");
+                            owner.broadcastMsg("$ " + name + " присоединился к каналу");
+                            owner.addClient(this);
+                            break;
                         } else {
                             sendMsg("Auth Error");
                             owner.remove(this);
                             owner.removeId(name);
+
+                        }
+                        w = null;
+                    }
+
+                    n = w.split(" ");
+
+                    if ("auth".equalsIgnoreCase(n[0])) {
+                        String t = authLoginPass(n[1], n[2]);
+                        if (t != null) {
+                            out.writeUTF("Авторизация успешная");
+                            out.flush();
+                            name = t;
+                            owner.setUserId(t, this);
+                            owner.broadcastMsg("$ " + name + " присоединился к каналу");
+                            owner.addClient(this);
                             break;
+                        } else {
+                            sendMsg("Auth Error");
+                            owner.remove(this);
+                            owner.removeId(name);
+
                         }
                         w = null;
                     }
                 }
+            }
+
+
+
+
+
+
+            while (true) {
+
+                String w = in.readUTF();
                 if ("list".equalsIgnoreCase(w)) {
                     if("root".equals(name)){
                         out.writeUTF(owner.listRoot());

@@ -29,20 +29,12 @@
           <size top="5" left="10" bottom="0" right="0"/>
         </border>
         <children>
-          <component id="94af7" class="javax.swing.JEditorPane" binding="editorPane1" default-binding="true">
+          <component id="18c19" class="javax.swing.JTextArea" binding="textArea">
             <constraints/>
             <properties>
-              <alignmentX value="0.5"/>
               <background color="-16777216"/>
               <editable value="false"/>
-              <font name="Verdana" size="11" style="1"/>
-              <foreground color="-16352496"/>
-              <margin top="0" left="0" bottom="0" right="0"/>
-              <text value=""/>
             </properties>
-            <clientProperties>
-              <charset class="java.lang.String" value=""/>
-            </clientProperties>
           </component>
         </children>
       </scrollpane>
