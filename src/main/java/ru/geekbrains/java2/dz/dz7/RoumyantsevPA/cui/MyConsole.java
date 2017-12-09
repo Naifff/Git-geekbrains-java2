@@ -31,20 +31,22 @@ public class MyConsole {
 
         new Thread(() -> {
             Thread outConsole = new Thread(() -> {
-                try{
-                while (true) {
-                    if (sc.hasNext()) {
-                        String a = sc.nextLine();
-                        out.writeUTF(a);
-                        out.flush();
+                try {
+                    while (true) {
+                        if (sc.hasNext()) {
+                            String a = sc.nextLine();
+                            out.writeUTF(a);
+                            out.flush();
+                        }
                     }
-                }}catch (Exception e){}
+                } catch (Exception e) {
+                }
             });
             outConsole.setDaemon(true);
             outConsole.start();
 
             while (true) {
-             //   if (in.readUTF()) {
+                //   if (in.readUTF()) {
                 String w = null;
                 try {
                     w = in.readUTF();
@@ -52,12 +54,12 @@ public class MyConsole {
                     e.printStackTrace();
                 }
                 if (w.equalsIgnoreCase("end session")) {
-                        end = true;
-                        System.out.println(w);
-                        break;
-                    }
+                    end = true;
                     System.out.println(w);
-               // }
+                    break;
+                }
+                System.out.println(w);
+                // }
             }
             //outConsole.stop();
             try {

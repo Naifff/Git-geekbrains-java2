@@ -1,4 +1,5 @@
 package ru.geekbrains.java2.dz.dz7.RoumyantsevPA.server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -24,7 +25,7 @@ public class MyServer {
                 socket = server.accept();
                 System.out.println("Client connected");
                 ClientHandler h = new ClientHandler(socket, this);
-              //  clients.add(h);
+                //  clients.add(h);
                 new Thread(h).start();
             }
         } catch (IOException e) {
@@ -40,13 +41,15 @@ public class MyServer {
         }
     }
 
-    public void addClient(ClientHandler c){clients.add(c);}
+    public void addClient(ClientHandler c) {
+        clients.add(c);
+    }
 
     public void remove(ClientHandler o) {
         clients.remove(o);
     }
 
-    public  void removeId(String s){
+    public void removeId(String s) {
 
         this.userId.remove(s);
     }
@@ -62,14 +65,18 @@ public class MyServer {
     }
 
     public void setUserId(String login, ClientHandler c) {
-        this.userId.put(login,c);
+        this.userId.put(login, c);
     }
 
     public Integer getAuth(String login) {
         return this.auth.get(login);
     }
-    public String list(){return this.userId.keySet().toString();}
-    public boolean isLogin(String login){
+
+    public String list() {
+        return this.userId.keySet().toString();
+    }
+
+    public boolean isLogin(String login) {
 
         return this.auth.containsKey(login);
     }
@@ -78,24 +85,27 @@ public class MyServer {
         return this.userId.get(login);
     }
 
-    public void sendPM(String login1, String login2, String str){
-        if(userId.get(login2)!=null){
-        userId.get(login1).sendMsg("to "+login2+": "+str);
-        userId.get(login2).sendMsg("@"+login1+": "+str);}
-        else{userId.get(login1).sendMsg("пользователь: "+login2+" не найден");}
+    public void sendPM(String login1, String login2, String str) {
+        if (userId.get(login2) != null) {
+            userId.get(login1).sendMsg("to " + login2 + ": " + str);
+            userId.get(login2).sendMsg("@" + login1 + ": " + str);
+        } else {
+            userId.get(login1).sendMsg("пользователь: " + login2 + " не найден");
+        }
 
 
     }
 
-    public String listRoot(){
-        String out="";
-        for (String s:auth.keySet()){
-            out+=s+":"+auth.get(s)+"|";
+    public String listRoot() {
+        String out = "";
+        for (String s : auth.keySet()) {
+            out += s + ":" + auth.get(s) + "|";
         }
         return out;
 
     }
-    public String help(){
-        return "list - список онлайн пользователей";
+
+    public String help() {
+        return "list - список онлайн пользователей" + System.lineSeparator() + "@user - отправка личного сообщения" + System.lineSeparator() + "end - заверщение работы";
     }
 }
