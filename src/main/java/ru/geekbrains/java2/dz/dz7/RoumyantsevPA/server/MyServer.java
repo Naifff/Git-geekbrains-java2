@@ -1,13 +1,14 @@
-package ru.geekbrains.java2.lesson7.server;
+package ru.geekbrains.java2.dz.dz7.RoumyantsevPA.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 public class MyServer {
 
-    private ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
+    private Vector<ClientHandler> clients = new Vector<>();
 
     public MyServer() {
         ServerSocket server = null;

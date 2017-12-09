@@ -1,4 +1,4 @@
-package ru.geekbrains.java2.dz.dz4.RoumyantsevPA;
+package ru.geekbrains.java2.dz.dz7.RoumyantsevPA;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
