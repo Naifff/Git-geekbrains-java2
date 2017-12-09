@@ -77,8 +77,23 @@ public class MyServer {
     }
 
     public void sendPM(String login1, String login2, String str){
-        userId.get(login1).sendMsg(login1+": "+str);
-        userId.get(login2).sendMsg(login1+": "+str);
+        if(userId.get(login2)!=null){
+        userId.get(login1).sendMsg("to "+login2+": "+str);
+        userId.get(login2).sendMsg("@"+login1+": "+str);}
+        else{userId.get(login1).sendMsg("пользователь: "+login2+" не найден");}
 
+
+    }
+
+    public String listRoot(){
+        String out="";
+        for (String s:auth.keySet()){
+            out+=s+":"+auth.get(s)+"|";
+        }
+        return out;
+
+    }
+    public String help(){
+        return "list - список онлайн пользователей";
     }
 }

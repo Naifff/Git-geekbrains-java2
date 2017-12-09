@@ -113,7 +113,9 @@ public class MyWindow extends JFrame {
                     while (true) {
                         String w = in.readUTF();
                         if (w != null) {
-                            if (w.equalsIgnoreCase("end session")) break;
+                            if (w.equalsIgnoreCase("end session")) {
+                                jta.append("end session");
+                                break;}
                             jta.append(w);
                             jta.append("\n");
                             jta.setCaretPosition(jta.getDocument().getLength());

@@ -42,7 +42,8 @@ public class ClientHandler implements Runnable {
                             out.writeUTF("Авторизация успешная");
                             out.flush();
                             name = t;
-                            owner.setUserId(t,this);
+                            owner.setUserId(t, this);
+                            owner.broadcastMsg("$ "+name+" присоединился к каналу");
                         } else {
                             sendMsg("Auth Error");
                             owner.remove(this);
@@ -53,18 +54,53 @@ public class ClientHandler implements Runnable {
                     }
                 }
                 if ("list".equalsIgnoreCase(w)) {
+                    if("root".equals(name)){
+                        out.writeUTF(owner.listRoot());
+                        out.flush();
+                        w=null;
+                    }else{
                     out.writeUTF(owner.list());
                     out.flush();
-                    w = null;
+                    w = null;}
                 }
+                if("help".equalsIgnoreCase(w)){
+                    out.writeUTF(owner.help());
+                    out.flush();
+                    w = null;}
 
                 if (w != null) {
-                    if(w.indexOf(" ")==0){
-                        String login2="";
-                        String msg="";
-                        System.arraycopy(w,1,login2,0,w.indexOf(" "));
-                        System.arraycopy(w,w.indexOf(" "),msg,0,w.length());
-                        owner.sendPM(this.name,login2,msg);
+                    if (w.indexOf("@") == 0) {
+
+                        //String w = "@root heya111222";
+                        // System.out.println(w.indexOf('@'));
+                        char[] wChar = new char[w.length()];
+                        char[] login2 = new char[w.indexOf(' ') - 1];
+                        char[] msg = new char[w.length() - w.indexOf(' ') - 1];
+                        wChar = w.toCharArray();
+//        try {
+//            System.out.println(w);
+//            System.out.println(w.length());
+//            System.out.println();
+//            System.out.println(wChar);
+//            System.out.println(wChar.length);
+                        System.arraycopy(wChar, 1, login2, 0, login2.length);
+                        //System.out.println(login2);
+                        // System.out.println(login2.toString());
+
+                        //System.out.println();
+                        // System.out.println("wChar="+wChar+" w.indexOf(' ')="+(w.indexOf(' '))+" msg="+msg+" wChar.length="+wChar.length-);
+                        System.arraycopy(wChar, w.indexOf(' ') + 1, msg, 0, msg.length);
+
+                        // System.out.println(msg);
+//        }catch (Exception e){}
+                        String s1 = new String(login2);
+                        String s2 = new String(msg);
+
+//                        String login2 = "";
+//                        String msg = "";
+//                        System.arraycopy(w, 1, login2, 0, w.indexOf(" "));
+//                        System.arraycopy(w, w.indexOf(" "), msg, 0, w.length());
+                        owner.sendPM(this.name, s1, s2);
                         w = null;
                     /*
                     System.arraycopy(массив-источник, откуда начинаем брать данные из массива-источника,
@@ -73,11 +109,17 @@ public class ClientHandler implements Runnable {
                      */
                         // w.indexOf(" ")
 
-                    }else{
+                    } else {
+                        if (w.equalsIgnoreCase("END")) {
+                            out.writeUTF("end session");
+                            out.flush();
+                            break;
 
-                    owner.broadcastMsg(name + ": " + w);
-                    System.out.println(name + ": " + w);
-                    if (w.equalsIgnoreCase("END")) break;}
+                        }
+                        owner.broadcastMsg(name + ": " + w);
+                        System.out.println(name + ": " + w);
+
+                    }
                 }
                 Thread.sleep(100);
             }
@@ -109,14 +151,14 @@ public class ClientHandler implements Runnable {
     public String authLoginPass(String login, String password) {
         if (owner.isLogin(login)) {
             if (owner.getAuth(login) == password.hashCode()) {
-                owner.setUserId(login,this);
+                owner.setUserId(login, this);
                 return login;
             } else {
                 return null;
             }
         }
         owner.setAuth(login, password);
-        owner.setUserId(login,this);
+        owner.setUserId(login, this);
         return login;
 
     }
