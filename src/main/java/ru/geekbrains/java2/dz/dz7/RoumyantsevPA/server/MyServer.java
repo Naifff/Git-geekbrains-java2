@@ -3,14 +3,18 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 
 public class MyServer {
 
     private Vector<ClientHandler> clients = new Vector<>();
+    private HashMap<String, Integer> auth = new HashMap<>();
+    private HashMap<String, ClientHandler> userId = new HashMap<>();
 
     public MyServer() {
+        auth.put("root", -1195288997);
         ServerSocket server = null;
         Socket socket = null;
         try {
@@ -40,9 +44,41 @@ public class MyServer {
         clients.remove(o);
     }
 
+    public  void removeId(String s){
+
+        this.userId.remove(s);
+    }
+
     public void broadcastMsg(String msg) {
         for (ClientHandler o : clients) {
             o.sendMsg(msg);
         }
+    }
+
+    public void setAuth(String login, String password) {
+        this.auth.put(login, password.hashCode());
+    }
+
+    public void setUserId(String login, ClientHandler c) {
+        this.userId.put(login,c);
+    }
+
+    public Integer getAuth(String login) {
+        return this.auth.get(login);
+    }
+    public String list(){return this.userId.keySet().toString();}
+    public boolean isLogin(String login){
+
+        return this.auth.containsKey(login);
+    }
+
+    public ClientHandler getUserId(String login) {
+        return this.userId.get(login);
+    }
+
+    public void sendPM(String login1, String login2, String str){
+        userId.get(login1).sendMsg(login1+": "+str);
+        userId.get(login2).sendMsg(login1+": "+str);
+
     }
 }

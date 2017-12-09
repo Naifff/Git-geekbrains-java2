@@ -12,7 +12,6 @@ public class ClientHandler implements Runnable {
     private DataOutputStream out;
     private DataInputStream in;
     private String name;
-    private HashMap<String, Integer> auth = new HashMap<>();
 
 
     public ClientHandler(Socket s, MyServer owner) {
@@ -28,9 +27,11 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        auth.put("root", -1195288997);
+
 
         try {
+            out.writeUTF("Здравствуйте, для авторизации наберите:auth login password\nдля помощи help");
+            out.flush();
             while (true) {
                 String w = in.readUTF();
                 if (name.isEmpty()) {
@@ -38,23 +39,45 @@ public class ClientHandler implements Runnable {
                     if ("auth".equalsIgnoreCase(n[0])) {
                         String t = authLoginPass(n[1], n[2]);
                         if (t != null) {
+                            out.writeUTF("Авторизация успешная");
+                            out.flush();
                             name = t;
+                            owner.setUserId(t,this);
                         } else {
                             sendMsg("Auth Error");
                             owner.remove(this);
+                            owner.removeId(name);
                             break;
                         }
                         w = null;
                     }
                 }
-                if ("/list".equalsIgnoreCase(w)) {
-                    sendMsg("");
+                if ("list".equalsIgnoreCase(w)) {
+                    out.writeUTF(owner.list());
+                    out.flush();
                     w = null;
                 }
+
                 if (w != null) {
+                    if(w.indexOf(" ")==0){
+                        String login2="";
+                        String msg="";
+                        System.arraycopy(w,1,login2,0,w.indexOf(" "));
+                        System.arraycopy(w,w.indexOf(" "),msg,0,w.length());
+                        owner.sendPM(this.name,login2,msg);
+                        w = null;
+                    /*
+                    System.arraycopy(массив-источник, откуда начинаем брать данные из массива-источника,
+массив-назначение, откуда начинаем записывать данные в массив-назначение, сколько ячеек
+копируем)
+                     */
+                        // w.indexOf(" ")
+
+                    }else{
+
                     owner.broadcastMsg(name + ": " + w);
                     System.out.println(name + ": " + w);
-                    if (w.equalsIgnoreCase("END")) break;
+                    if (w.equalsIgnoreCase("END")) break;}
                 }
                 Thread.sleep(100);
             }
@@ -65,7 +88,10 @@ public class ClientHandler implements Runnable {
         }
         try {
             System.out.println("Client disconnected");
-            if (!name.equals("")) owner.remove(this);
+            if (!name.equals("")) {
+                owner.remove(this);
+                owner.removeId(name);
+            }
             s.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,12 +107,16 @@ public class ClientHandler implements Runnable {
     }
 
     public String authLoginPass(String login, String password) {
-        if (auth.containsKey(login)) {
-            if (auth.get(login) == password.hashCode()) {
+        if (owner.isLogin(login)) {
+            if (owner.getAuth(login) == password.hashCode()) {
+                owner.setUserId(login,this);
                 return login;
-            }else{return null;}
+            } else {
+                return null;
+            }
         }
-        auth.put(login,password.hashCode());
+        owner.setAuth(login, password);
+        owner.setUserId(login,this);
         return login;
 
     }
