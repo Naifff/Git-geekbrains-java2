@@ -1,9 +1,9 @@
 package ru.geekbrains.java2.dz.dz4.RoumyantsevPA;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,7 +14,6 @@ public class DZ4Form extends JFrame {
     private JEditorPane editorPane1;
     private JPanel panelka2;
     private JScrollPane scrol1;
-    private JTextArea textArea;
     private JList list1;
 
     public DZ4Form() {
@@ -45,7 +44,7 @@ public class DZ4Form extends JFrame {
                 runText += "\nunknown " + formatForDateNow.format(new Date()) + "\n";
             }
             runText += text.charAt(i);
-            textArea.setText(runText);
+            editorPane1.setText(runText);
             try {
                 Thread.sleep(130);
             } catch (InterruptedException e) {
@@ -57,27 +56,20 @@ public class DZ4Form extends JFrame {
 
         button1.addActionListener(
                 e -> {
-                    textArea.setText(textArea.getText() + "\nYou " + formatForDateNow.format(new Date()) + "\n" + textField1.getText());
+                    editorPane1.setText(editorPane1.getText() + "\nYou " + formatForDateNow.format(new Date()) + "\n" + textField1.getText());
                     textField1.setText("");
                 });
 
         textField1.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        textArea.setText(textArea.getText() + "\nYou " + formatForDateNow.format(new Date()) + "\n" + textField1.getText());
-                        textField1.setText("");
-                    }
+                e -> {
+                    editorPane1.setText(editorPane1.getText() + "\nYou " + formatForDateNow.format(new Date()) + "\n" + textField1.getText());
+                    textField1.setText("");
                 }
         );
     }
 
     public static void main(String[] args) {
         new DZ4Form();
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }
 
