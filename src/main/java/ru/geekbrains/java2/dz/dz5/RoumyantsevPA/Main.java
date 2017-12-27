@@ -41,30 +41,23 @@ arr[i] = (float)(arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math
 import java.util.Arrays;
 
 public class Main {
-    static final int size =10000000;
+    static final int size = 10000000;
     static final int h = size / 2;
     public int runner=0;
 
     public static void main(String[] args) {
 
 
-//        metod1();
-//        metod2();
+        metod1();
+        metod2();
+        metod(18);
 
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.out.println("Processors available: " + cores);
-long min=Long.MAX_VALUE;
-int value=0;
-long current=0;
-        for (int i = 1; i < 17; i++) {
-            current=metod(i);
-                   if( min> current){
-                       min=current;
-                       value=i;
-                   }
-        }
-        metod(16000);
-        System.out.println("Самый бюыстрый: "+min+" Количество потоков: "+value);
+
+//        for (int i = 1; i < 17; i++) {
+//                    metod(i);
+//        }
 
     }
 
@@ -121,7 +114,7 @@ long current=0;
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
     }
 
-    static private long metod(int w) {
+    static private void metod(int w) {
         Thread[] threads = new Thread[w];
         float[] arr = new float[size];
         for (int i = 0; i < arr.length; i++) {
@@ -177,9 +170,8 @@ long current=0;
             start += size / w;
         }if (size%w!=0){
             System.arraycopy(ostatok , 0, arr, start, size -start);}
-long time=System.currentTimeMillis() - a;
-        System.out.println("Потоков " + w + ": " + time+"мс");
-        return time;
+
+        System.out.println("Метод " + w + ": " + (System.currentTimeMillis() - a));
        // System.out.println(arr[h - 2] + " " + arr[h - 1] + " " + arr[h] + " " + arr[h + 1] + " " + arr[h + 2] + " " + arr[size - 6] + " " + arr[size - 5] + " " + arr[size - 4] + " " + arr[size - 3] + " " + arr[size - 2] + " " + arr[size - 1]);
 
     }

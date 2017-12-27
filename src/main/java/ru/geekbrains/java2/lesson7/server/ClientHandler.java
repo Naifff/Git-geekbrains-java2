@@ -29,8 +29,7 @@ public class ClientHandler implements Runnable {
                 String w = in.readUTF();
                 if (name.isEmpty()) {
                     String[] n = w.split("\t");
-                   // String t = SQLHandler.getNickByLoginPassword(n[1], n[2]);
-                    String t="";
+                    String t = SQLHandler.getNickByLoginPassword(n[1], n[2]);
                     if (t != null) {
                         name = t;
                     } else {

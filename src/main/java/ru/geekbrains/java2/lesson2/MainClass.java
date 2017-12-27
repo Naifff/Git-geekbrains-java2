@@ -160,7 +160,7 @@ public class MainClass {
 
             int[] w = new int[5];
             w[10] = 10; // ArrayIndexOoutOfBoundsException
-        } catch (ArithmeticException e) {
+        } catch (ArithmeticException|ArrayIndexOutOfBoundsException|NullPointerException e) {
             e.printStackTrace();
         }  finally {
             System.out.println("finally");
